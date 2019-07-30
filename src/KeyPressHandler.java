@@ -30,7 +30,7 @@ public class KeyPressHandler implements NativeKeyListener {
 
     public void nativeKeyReleased(NativeKeyEvent e) {
         if(!this.hotkeySelect && e.getKeyCode() == keyevent && !running) {
-            c = new Clicker(GUI.getInstance().getDelay());
+            c = new Clicker(GUI.getInstance().getDelay(), GUI.getInstance().getButton());
             running = true;
             c.start();
             System.out.println("clicker on. interval: " + GUI.getInstance().getDelay() + "ms");

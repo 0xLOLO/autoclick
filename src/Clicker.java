@@ -5,10 +5,11 @@ public class Clicker extends Thread {
 
     private int delay;
     private Robot bot = null;
-    private int mask = InputEvent.BUTTON3_DOWN_MASK;
+    private int mask;
 
 
-    public Clicker(int delay) {
+    public Clicker(int delay, int mask) {
+        this.mask = mask;
         this.delay = delay;
         try {
             bot = new Robot();
