@@ -1,3 +1,5 @@
+package lolo.autoclicker;
+
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
@@ -7,22 +9,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import java.awt.FlowLayout;
 import java.awt.event.InputEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GUI extends JFrame {
-
-  /**
-   * Main method is obsolete due to the GUI instantiating itself
-   */
-  public static void main(String[] args) {
-  }
 
   //Singleton gui instance
   private static final GUI instance = new GUI("AutoClicker");
@@ -33,11 +26,8 @@ public class GUI extends JFrame {
   private JSlider slider = new JSlider(10, 2000);
   private JLabel sliderLabel = new JLabel(1000 / this.slider.getValue() + "cps");
   private int mouseButton = InputEvent.BUTTON1_DOWN_MASK;
-
-
   /**
    * GUI constructor. Instantiates the swing GUI and registers NativeHook + KeyPressHandler
-   * TODO: Mouse Button Select
    */
   public GUI(String title) {
     super(title);
@@ -45,6 +35,12 @@ public class GUI extends JFrame {
     this.nativehookInit();
 
     this.swingInit();
+  }
+
+  /**
+   * Main method is obsolete due to the GUI instantiating itself
+   */
+  public static void main(String[] args) {
   }
 
   public static GUI getInstance() {
@@ -61,7 +57,11 @@ public class GUI extends JFrame {
   }
 
   public void setDelay(int delay) {
-    sliderLabel.setText(String.valueOf(((float) Math.round(((float) 1000/delay) * 10 ) / 10 + "cps")));
+    if (delay < 1000) {
+      sliderLabel.setText((float) Math.round(((float) 1000 / delay) * 10) / 10 + " c/s");
+    } else {
+      sliderLabel.setText((float) Math.round((float) delay / 100) / 10 + " s/c");
+    }
     this.delay = delay;
   }
 
@@ -115,12 +115,11 @@ public class GUI extends JFrame {
     };
     ButtonGroup mbSelect = new ButtonGroup();
     JPanel buttonPanel = new JPanel(new FlowLayout());
-    for(RadioButton e : rb) {
+    for (RadioButton e : rb) {
       mbSelect.add(e);
       buttonPanel.add(e);
     }
     outerPanel.add(buttonPanel);
-
 
 
     //adding and making visible
